@@ -4,6 +4,7 @@ import { fetchBook } from "./utils/file";
 import { BookRender } from "./models/book";
 import { CategoryIcon, CategoryModal } from "./components/Category";
 import { ScrllToTopButton } from "./components/ScrollTop";
+import VConsole from "vconsole";
 
 export default function Reader() {
   const [categoryVisible, setCategoryVisible] = useState(false);
@@ -22,6 +23,9 @@ export default function Reader() {
     let ignore = false;
     const search = new URLSearchParams(location.search.slice(1));
     const url = search.get("url");
+    if (search.get('debug')) {
+      new VConsole();
+    }
     if (url) {
       setLoading(true);
       fetchBook(url).then((bookRecord) => {
@@ -43,6 +47,7 @@ export default function Reader() {
       ignore = true;
     };
   }, []);
+
   return (
     <>
       {loading && <p className="text-center">loading...</p>}
