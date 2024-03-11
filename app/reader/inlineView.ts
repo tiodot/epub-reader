@@ -8,13 +8,17 @@ export default class InlineView extends Inline {
   [key: string]: any;
   constructor(sections: Section, options: any) {
     super(sections, options);
+    this.viewName = 'customInlineView'
+    // fix inline view bug
+    this.width = () => this._width;
+    this.height = () => this._height;
   }
-  width() {
-    return this._width;
-  }
-  height() {
-    return this._height;
-  }
+  // width() {
+  //   return this._width;
+  // }
+  // height() {
+  //   return this._height;
+  // }
 
   load(contents: string) {
     const loading = new defer();
