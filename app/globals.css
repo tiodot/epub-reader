@@ -32,6 +32,12 @@ body {
   }
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .epub-view > div {
   max-width: 100% !important;
 }
