@@ -13,6 +13,7 @@ export default function Reader() {
     prevLabel?: string;
     nextLabel?: string;
   }>({});
+  const [loading, setLoading] = useState(false);
   const bookRenderRef = useRef<BookRender>();
   const search = useSearchParams();
   const closeCategory = useCallback(() => {
@@ -23,6 +24,7 @@ export default function Reader() {
     let ignore = false;
     const url = search.get("url");
     if (url) {
+      setLoading(true);
       fetchBook(url).then((bookRecord) => {
         if (!ignore) {
           bookRenderRef.current = new BookRender(bookRecord);
@@ -32,6 +34,8 @@ export default function Reader() {
             },
           });
         }
+      }).finally(() => {
+        setLoading(false);
       });
     } else {
       console.log("error: not found url");
@@ -42,6 +46,7 @@ export default function Reader() {
   }, []);
   return (
     <>
+      {loading && <p className="text-center">loading...</p>}
       <div
         className="absolute text-center w-full cursor-pointer px-4"
         onClick={() => {
