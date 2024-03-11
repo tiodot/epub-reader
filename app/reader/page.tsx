@@ -56,9 +56,9 @@ export default function Reader() {
         {pagination.prevLabel && "<< "}
         {pagination.prevLabel}
       </div>
-      <div ref={el} className="p-4 pt-6 pb-6 min-h-screen"></div>
+      <div ref={el} className="p-4 pt-6 pb-8" style={{minHeight: '90vh'}}></div>
       <div
-        className="absolute text-center w-full cursor-pointer px-4"
+        className="absolute text-center w-full cursor-pointer px-4 pb-4"
         onClick={() => {
           pagination.nextLabel && bookRenderRef.current?.rendition?.next();
         }}

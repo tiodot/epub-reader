@@ -9,7 +9,7 @@ export default function Home() {
   const localBooks = useAtomValue(libraryStore);
   const [searchBooks, setSearchBooks] = useState<BookItem[]>([]);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-2 sm:p-4 md:p-24">
       <SearchGithub onChange={(books: BookItem[]) => {
         setSearchBooks(books);
       }} />

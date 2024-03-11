@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.epub-view > div {
+  max-width: 100% !important;
+}
