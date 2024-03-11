@@ -1,4 +1,5 @@
 import { fetchBook } from "@/app/utils/file";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export interface BookItem {
@@ -17,6 +18,7 @@ function lock(l: number, r: number, unit = "px") {
 }
 
 function Book(props: { book: BookItem }) {
+  const router = useRouter();
   const { book } = props;
   const [loading, setLoading] = useState(false);
   return (
@@ -42,8 +44,8 @@ function Book(props: { book: BookItem }) {
             return;
           }
           // open book
-          // router.push(`/reader?url=${book.url}&id=${book.id}`)
-          window.open(`/reader?id=${book.id}`, "_blank");
+          router.push(`/reader?id=${book.id}`);
+          // window.open(`/reader?id=${book.id}`, "_blank");
         }}
       >
         <div className={"absolute bottom-0 h-1 bg-blue-500"} />

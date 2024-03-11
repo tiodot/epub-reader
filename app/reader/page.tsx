@@ -4,6 +4,7 @@ import { fetchBook } from "../utils/file";
 import { BookRender } from "./models/book";
 import { CategoryIcon, CategoryModal } from "./components/Category";
 import { ScrllToTopButton } from "./components/ScrollTop";
+import { db } from "../utils/db";
 
 export default function Reader() {
   const [categoryVisible, setCategoryVisible] = useState(false);
@@ -22,6 +23,7 @@ export default function Reader() {
     let ignore = false;
     const search = new URLSearchParams(location.search.slice(1));
     const url = search.get("url");
+    const bookId = search.get('id');
     if (search.get('debug') && typeof window !== 'undefined') {
       import('vconsole').then(res => {
         new res.default();
@@ -41,8 +43,21 @@ export default function Reader() {
       }).finally(() => {
         setLoading(false);
       });
+    } else if (bookId){
+      db?.books.get(bookId).then(bookRecord => {
+        if (!ignore) {
+          bookRenderRef.current = new BookRender(bookRecord);
+          bookRenderRef.current.render(el.current!, {
+            onRender: (params) => {
+              setPagination(params);
+            },
+          });
+        }
+      });
+      
     } else {
       console.log("error: not found url");
+
     }
     return () => {
       ignore = true;
