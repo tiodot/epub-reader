@@ -12,6 +12,7 @@ export default class InlineView extends Inline {
     // fix inline view bug
     this.width = () => this._width;
     this.height = () => this._height;
+    this.offset = () => ({top: this.element.offsetTop, left: this.element.offsetLeft})
   }
   // width() {
   //   return this._width;

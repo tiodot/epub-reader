@@ -77,7 +77,6 @@ export default function Reader() {
           setCategoryVisible(true);
         }}
       />
-      <ScrllToTopButton />
       <CategoryModal
         visible={categoryVisible}
         items={
