@@ -61,6 +61,7 @@ export function CategoryModal(props: {
   visible: boolean;
 }) {
   const showClose = useMemo(() => {
+    if (typeof document === 'undefined') return false;
     return document.body.clientWidth < 600;
   }, []);
   if (!props.visible) return null;

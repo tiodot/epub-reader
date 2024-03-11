@@ -4,6 +4,9 @@ const nextConfig = {
     return [{
       source: '/github/download/:path*',
       destination: 'https://raw.githubusercontent.com/:path*'
+    }, {
+      source: '/github/api/:path*',
+      destination: 'https://api.github.com/:path*'
     }]
   }
 };
