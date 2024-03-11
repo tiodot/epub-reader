@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { BookItem } from "../BookCollection";
 
 function generateGitHubRawUrl(
@@ -12,22 +12,21 @@ function generateGitHubRawUrl(
 }
 
 export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
-  const [githubInfo, setGithubInfo] = useState({
-    user: "",
-    repo: "",
-    branch: "main",
-  });
+  const [val, setVal] = useState("tiodot/geektime-books@master");
+  const githubInfo = useMemo(() => {
+    const [user, repo, branch] = val.split(/[\/|@]/);
+    console.log("value:", user, repo, branch);
+    return {
+      user: user ?? "",
+      repo: repo ?? "",
+      branch: branch ?? "main",
+    };
+  }, [val]);
   const [error, setError] = useState("");
   const handleInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
-      const [user, repo, branch] = value.split(/[\/|@]/);
-      console.log("value:", user, repo, branch);
-      setGithubInfo({
-        user: user ?? "",
-        repo: repo ?? "",
-        branch: branch ?? "main",
-      });
+      setVal(value);
       setError("");
     },
     []
@@ -40,7 +39,7 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
       )
         .then((res) => res.json())
         .then((res) => {
-          console.log('res:', res.tree);
+          console.log("res:", res.tree);
           const books: BookItem[] = res.tree
             .filter(
               (item: any) =>
@@ -56,11 +55,12 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
               ),
               id: item.sha,
             }));
-          console.log('books:', books);
+          console.log("books:", books);
           props.onChange(books);
-        }).catch(err => {
+        })
+        .catch((err) => {
           console.error(err);
-          setError('fetch data error, the github info may not be right');
+          setError("fetch data error, the github info may not be right");
         });
     } else {
       setError(
@@ -75,9 +75,12 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
           className="p-2 min-w-80 bg-transparent border"
           placeholder="github USER/REPO[@BRANCH] eg: tiodot/test or tiodot/test@master)"
           onChange={handleInput}
-          value="tiodot/geektime-books@master"
+          value={val}
         />
-        <button className="p-2 border border-blue-200 ml-4 bg-blue-300" onClick={handleSearch}>
+        <button
+          className="p-2 border border-blue-200 ml-4 bg-blue-300"
+          onClick={handleSearch}
+        >
           Search
         </button>
       </div>

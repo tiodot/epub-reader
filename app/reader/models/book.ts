@@ -210,8 +210,8 @@ export class BookRender {
         if (!parentId) {
           navItem = undefined;
         } else {
-          const index = this.nav.tocById[parentId]!;
-          navItem = this.nav.getByIndex(parentId, index, this.nav.toc);
+          const index = (this.nav as any).tocById[parentId]!;
+          navItem = (this.nav as any).getByIndex(parentId, index, this.nav.toc);
         }
       }
     }
@@ -293,9 +293,13 @@ export class BookRender {
       Promise.all(promises).then(() => {
         sections.forEach((s) => {
           s.length = s.document.body.textContent?.length ?? 0;
-          s.images = [...s.document.querySelectorAll("img")].map(
-            (el) => el.src
-          );
+          s.images = [];
+          s.document.querySelectorAll('img').forEach(el => {
+            s.images.push(el.src);
+          })
+          // s.images = [...s.document.querySelectorAll("img")].map(
+          //   (el) => el.src
+          // );
           this.epub!.loaded.navigation.then(() => {
             s.navitem = this.mapSectionToNavItem(s.href);
           });

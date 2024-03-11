@@ -1,9 +1,11 @@
+//eslint-disabled
 import Inline from "epubjs/src/managers/views/inline";
 import Section from "epubjs/types/section";
 import { defer, qs, parse } from "epubjs/src/utils/core";
 import Contents from "epubjs/src/contents";
 
 export default class InlineView extends Inline {
+  [key: string]: any;
   constructor(sections: Section, options: any) {
     super(sections, options);
   }

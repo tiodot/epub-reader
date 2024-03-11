@@ -11,7 +11,7 @@ export async function fileToEpub(file: File) {
   return ePub(data)
 }
 
-export async function handleFiles(files: Iterable<File>) {
+export async function handleFiles(files: Array<File>) {
   const books = await db?.books.toArray()
   const newBooks = []
 

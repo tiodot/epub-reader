@@ -1,5 +1,4 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchBook } from "./utils/file";
 import { BookRender } from "./models/book";
@@ -15,13 +14,13 @@ export default function Reader() {
   }>({});
   const [loading, setLoading] = useState(false);
   const bookRenderRef = useRef<BookRender>();
-  const search = useSearchParams();
   const closeCategory = useCallback(() => {
     setCategoryVisible(false);
   }, [])
   // get book info
   useEffect(() => {
     let ignore = false;
+    const search = new URLSearchParams(location.search.slice(1));
     const url = search.get("url");
     if (url) {
       setLoading(true);

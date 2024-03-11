@@ -69,7 +69,7 @@ export function CategoryModal(props: {
     <div
       className="outer top-0 left-0 fixed right-0 bottom-0 bg-slate-500/50"
       onClick={(e) => {
-        if (e.target?.classList.contains("outer")) {
+        if ((e.target as HTMLDivElement).classList.contains("outer")) {
           props.onClose();
         }
       }}
