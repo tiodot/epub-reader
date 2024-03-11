@@ -8,6 +8,9 @@ dependencies:
   dexie:
     specifier: ^3.2.6
     version: 3.2.6(karma@6.4.3)
+  dexie-react-hooks:
+    specifier: ^1.1.7
+    version: 1.1.7(@types/react@18.2.64)(dexie@3.2.6)(react@18.2.0)
   epubjs:
     specifier: ^0.3.93
     version: 0.3.93
@@ -970,6 +973,18 @@ packages:
   /destroy@1.2.0:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+    dev: false
+
+  /dexie-react-hooks@1.1.7(@types/react@18.2.64)(dexie@3.2.6)(react@18.2.0):
+    resolution: {integrity: sha512-Lwv5W0Hk+uOW3kGnsU9GZoR1er1B7WQ5DSdonoNG+focTNeJbHW6vi6nBoX534VKI3/uwHebYzSw1fwY6a7mTw==}
+    peerDependencies:
+      '@types/react': '>=16'
+      dexie: ^3.2 || ^4.0.1-alpha
+      react: '>=16'
+    dependencies:
+      '@types/react': 18.2.64
+      dexie: 3.2.6(karma@6.4.3)
+      react: 18.2.0
     dev: false
 
   /dexie@3.2.6(karma@6.4.3):

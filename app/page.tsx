@@ -1,19 +1,20 @@
-"use client"
-import { useAtomValue } from "jotai";
+"use client";
 import { BookCollection, BookItem } from "./components/BookCollection";
-import { SearchGithub } from "./components/SearchGithub";
-import { libraryStore } from "./models/library";
-import { useState } from "react";
+import { useLibrary } from "./models/library";
+import { Header } from "./components/Header";
+import { GithubLibrary } from "./components/GithubLibrary";
 
 export default function Home() {
-  const localBooks = useAtomValue(libraryStore);
-  const [searchBooks, setSearchBooks] = useState<BookItem[]>([]);
+  const books = useLibrary();
+  if (!books) return null;
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-2 sm:p-4 md:p-24">
-      <SearchGithub onChange={(books: BookItem[]) => {
-        setSearchBooks(books);
-      }} />
-      <BookCollection books={searchBooks.length ? searchBooks : localBooks} />
+    <main className="flex min-h-screen flex-col items-center">
+      <Header>
+        <GithubLibrary />
+      </Header>
+      <div className="container pt-4">
+        <BookCollection books={books} />
+      </div>
     </main>
   );
 }

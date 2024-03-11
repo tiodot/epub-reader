@@ -1,4 +1,6 @@
-import {atomWithStorage} from 'jotai/utils'
-import { BookItem } from '../components/BookCollection';
+import { useLiveQuery } from 'dexie-react-hooks';
+import {db} from '../utils/db';
 
-export const libraryStore = atomWithStorage<BookItem[]>('library', []);
+export function useLibrary() {
+  return useLiveQuery(() => db?.books.toArray() ?? []);
+}

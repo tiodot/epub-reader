@@ -1,13 +1,13 @@
 import { atom, useSetAtom } from "jotai";
-import { BookRecord, db } from "../utils/db";
-import { dfs, find, INode } from "../utils/tree";
+import { BookRecord, db } from "../../utils/db";
+import { dfs, find, INode } from "../../utils/tree";
 import InlineView from '../inlineView';
 
 
 import { Book, Rendition, Location } from "epubjs";
 import Navigation, { NavItem } from "epubjs/types/navigation";
 import Section from "epubjs/types/section";
-import { fileToEpub } from "../utils/file";
+import { fileToEpub } from "../../utils/file";
 
 export const defaultStyle = {
   html: {

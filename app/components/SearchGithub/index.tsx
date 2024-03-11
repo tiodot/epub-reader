@@ -46,7 +46,7 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
                 item.type === "blob" && item.path?.endsWith(".epub")
             )
             .map((item: any) => ({
-              label: item.path,
+              name: item.path,
               url: generateGitHubRawUrl(
                 item.path,
                 githubInfo.branch,
@@ -72,7 +72,7 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
     <div>
       <div className="mb-4 flex items-center">
         <input
-          className="p-2 min-w-80 bg-transparent border"
+          className="p-2 min-w-60 bg-transparent border"
           placeholder="github USER/REPO[@BRANCH] eg: tiodot/test or tiodot/test@master)"
           onChange={handleInput}
           value={val}
@@ -81,7 +81,7 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
           className="p-2 border border-blue-200 ml-4 bg-blue-300"
           onClick={handleSearch}
         >
-          Search
+          Fetch
         </button>
       </div>
       {error && <p className="text-red-500">{error}</p>}

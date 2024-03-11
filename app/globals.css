@@ -36,3 +36,7 @@ body {
 .epub-view > div {
   max-width: 100% !important;
 }
+
+button {
+  cursor: pointer;
+}

@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchBook } from "./utils/file";
+import { fetchBook } from "../utils/file";
 import { BookRender } from "./models/book";
 import { CategoryIcon, CategoryModal } from "./components/Category";
 import { ScrllToTopButton } from "./components/ScrollTop";

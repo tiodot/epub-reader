@@ -1,7 +1,7 @@
 import Dexie, { Table } from 'dexie'
 
 import { PackagingMetadataObject } from 'epubjs/types/packaging'
-import { TypographyConfiguration } from '../models/state'
+import { TypographyConfiguration } from '../reader/models/state'
 import { fileToEpub } from './file'
 
 
