@@ -50,7 +50,7 @@ export default function Reader() {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="absolute top-0 left-0">
       {loading && <p className="text-center">loading...</p>}
       <div
         className="text-center w-full cursor-pointer px-4"
