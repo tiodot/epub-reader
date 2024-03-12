@@ -7,7 +7,7 @@ export function Pagination(props: {
 }) {
   return (
     <div
-      className={`absolute flex w-full px-6 " ${
+      className={`absolute flex w-full px-6 ${
         props.position === "top" ? "top-0 border-b" : "bottom-0 border-t"
       }`}
     >
@@ -20,7 +20,7 @@ export function Pagination(props: {
       <span className=" w-8"></span>
       <span className="cursor-pointer flex flex-1" onClick={props.onNext}>
         {props.next && (
-          <span className=" line-clamp-1 flex-1 min-w-0">
+          <span className=" line-clamp-1 flex-1 min-w-0 text-right">
             {props.next}
           </span>
         )}

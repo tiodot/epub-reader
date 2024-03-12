@@ -41,7 +41,7 @@ function Book(props: { book: BookItem }) {
   return (
     <div
       onClick={handleClick}
-      className="relative flex flex-col border bg-white rounded"
+      className="relative flex flex-col border bg-white rounded dark:bg-black"
     >
       {loading && (
         <div className="absolute cursor-not-allowed flex justify-center items-center z-10 top-0 bottom-0 left-0 right-0 bg-gray-200/50">
@@ -76,7 +76,7 @@ function Book(props: { book: BookItem }) {
 
 export function BookCollection(props: { books: BookItem[] }) {
   return (
-    <div className="scroll h-full w-11/12">
+    <div className="scroll h-full m-auto w-11/12">
       <ul
         className="grid"
         style={{

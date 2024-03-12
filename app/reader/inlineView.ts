@@ -4,6 +4,19 @@ import Section from "epubjs/types/section";
 import { defer, qs, parse, isNumber } from "epubjs/src/utils/core";
 import Contents from "epubjs/src/contents";
 
+const styleStr = `
+<style>
+h1, h2, h3, h4, h5 {
+  color: rgb(var(--foreground-rgb));
+}
+
+code, tt {
+  background-color: rgb(var(--background-start-bg));
+}
+
+</style>
+`
+
 export default class InlineView extends Inline {
   [key: string]: any;
   constructor(sections: Section, options: any) {
@@ -28,7 +41,7 @@ export default class InlineView extends Inline {
     const loading = new defer();
     const loaded = loading.promise;
     const dom = this.frame.attachShadow({ mode: "open" });
-    dom.innerHTML = contents;
+    dom.innerHTML = contents + styleStr;
 
     // this.frame.innerHTML = contents;
 

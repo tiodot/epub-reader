@@ -75,7 +75,7 @@ export function CategoryModal(props: {
       }}
     >
       <div
-        className="absolute h-screen z-10 w-100 max-w-md right-0 top-0 overflow-auto bg-slate-50 p-6 pt-1"
+        className="absolute h-screen z-10 w-100 max-w-md right-0 top-0 overflow-auto pb-16 bg-slate-50 dark:bg-black p-6 pt-1"
         style={{ overscrollBehavior: "none" }}
       >
         <Category
@@ -85,7 +85,7 @@ export function CategoryModal(props: {
         ></Category>
         {showClose && (
           <button
-            className="w-full h-8 bg-gray-300 border"
+            className="w-full h-8 bg-gray-300 dark:bg-black border"
             onClick={props.onClose}
           >
             Close
