@@ -8,7 +8,7 @@ export default function Home() {
   const books = useLibrary();
   if (!books) return null;
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen flex-col overflow-x-hidden items-center">
       <Header>
         <GithubLibrary />
       </Header>

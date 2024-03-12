@@ -265,6 +265,7 @@ export class BookRender {
   async render(
     el: HTMLDivElement,
     options?: {
+      size?: {width: number, height: number},
       onRender?: (params: {
         prevLabel?: string;
         nextLabel?: string;
@@ -311,6 +312,7 @@ export class BookRender {
       // width: '90%',
       // height: '100%',
       // manager: "continuous",
+      ...options.size,
       flow: "scrolled-doc",
       view: InlineView,
       allowScriptedContent: true,
@@ -358,6 +360,14 @@ export class BookRender {
         this.updateBook({ cfi: start.cfi, percentage });
       }
     });
+
+    this.rendition.manager?.on('resized', (...args: []) => {
+      console.log('manage resized:', args);
+    })
+
+    this.rendition.on('resized', (args: any) => {
+      console.log('rendition resize:', args);
+    })
 
     this.rendition.on("attached", (...args: any[]) => {
       console.log("attached", args);

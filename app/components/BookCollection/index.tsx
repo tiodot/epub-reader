@@ -1,6 +1,6 @@
 import { fetchBook } from "@/app/utils/file";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export interface BookItem {
   name: string;
@@ -21,33 +21,34 @@ function Book(props: { book: BookItem }) {
   const router = useRouter();
   const { book } = props;
   const [loading, setLoading] = useState(false);
+  const handleClick = () => {
+    if (loading) return;
+    if (book.url) {
+      setLoading(true);
+      fetchBook(book.url)
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+      return;
+    }
+    // open book
+    router.push(`/reader?id=${book.id}`);
+    // window.open(`/reader?id=${book.id}`, "_blank");
+  };
   return (
-    <div className="relative flex flex-col border bg-white rounded">
+    <div
+      onClick={handleClick}
+      className="relative flex flex-col border bg-white rounded"
+    >
       {loading && (
         <div className="absolute cursor-not-allowed flex justify-center items-center z-10 top-0 bottom-0 left-0 right-0 bg-gray-200/50">
           downloading...
         </div>
       )}
-      <div
-        role="button"
-        className="border-inverse-on-surface relative border"
-        onClick={() => {
-          if (book.url) {
-            setLoading(true);
-            fetchBook(book.url)
-              .catch((err) => {
-                console.error(err);
-              })
-              .finally(() => {
-                setLoading(false);
-              });
-            return;
-          }
-          // open book
-          router.push(`/reader?id=${book.id}`);
-          // window.open(`/reader?id=${book.id}`, "_blank");
-        }}
-      >
+      <div role="button" className="border-inverse-on-surface relative border">
         <div className={"absolute bottom-0 h-1 bg-blue-500"} />
         {book.percentage && book.percentage > 0 && book.percentage < 1 && (
           <div className="typescale-body-large absolute right-0 bg-gray-500/60 px-2 text-gray-100">

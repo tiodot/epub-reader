@@ -1,10 +1,12 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fetchBook } from "../utils/file";
 import { BookRender } from "./models/book";
 import { CategoryIcon, CategoryModal } from "./components/Category";
 import { ScrllToTopButton } from "./components/ScrollTop";
-import { db } from "../utils/db";
+import { BookRecord, db } from "../utils/db";
+import { fixImage, getReaderSize } from "../utils/hack";
+import { Pagination } from "./components/Pagination";
 
 export default function Reader() {
   const [categoryVisible, setCategoryVisible] = useState(false);
@@ -17,76 +19,80 @@ export default function Reader() {
   const bookRenderRef = useRef<BookRender>();
   const closeCategory = useCallback(() => {
     setCategoryVisible(false);
-  }, [])
+  }, []);
   // get book info
   useEffect(() => {
     let ignore = false;
     const search = new URLSearchParams(location.search.slice(1));
     const url = search.get("url");
-    const bookId = search.get('id');
-    if (search.get('debug') && typeof window !== 'undefined') {
-      import('vconsole').then(res => {
+    const bookId = search.get("id");
+    if (search.get("debug") && typeof window !== "undefined") {
+      import("vconsole").then((res) => {
         new res.default();
-      })
+      });
     }
+    const renderBook = (bookRecord: BookRecord) => {
+      if (!ignore) {
+        // setTitle
+        document.title = bookRecord.name;
+        bookRenderRef.current = new BookRender(bookRecord);
+        bookRenderRef.current.render(el.current!, {
+          onRender: (params) => {
+            setPagination(params);
+          },
+          size: getReaderSize(),
+        });
+      }
+    };
     if (url) {
       setLoading(true);
-      fetchBook(url).then((bookRecord) => {
-        if (!ignore) {
-          bookRenderRef.current = new BookRender(bookRecord);
-          bookRenderRef.current.render(el.current!, {
-            onRender: (params) => {
-              setPagination(params);
-            },
-          });
-        }
-      }).finally(() => {
-        setLoading(false);
-      });
-    } else if (bookId){
-      db?.books.get(bookId).then(bookRecord => {
-        if (!ignore) {
-          bookRenderRef.current = new BookRender(bookRecord);
-          bookRenderRef.current.render(el.current!, {
-            onRender: (params) => {
-              setPagination(params);
-            },
-          });
-        }
-      });
-      
+      fetchBook(url)
+        .then(renderBook)
+        .finally(() => {
+          setLoading(false);
+        });
+    } else if (bookId) {
+      db?.books.get(bookId).then(renderBook);
     } else {
       console.log("error: not found url");
-
     }
     return () => {
+      fixImage();
       ignore = true;
     };
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="relative flex flex-col">
       {loading && <p className="text-center">loading...</p>}
-      <div
-        className="text-center w-full cursor-pointer px-4"
-        onClick={() => {
-          pagination.prevLabel && bookRenderRef.current?.rendition?.prev();
+      <Pagination
+        onNext={() => {
+          bookRenderRef.current?.rendition?.next();
         }}
-        id="prev"
-      >
-        {pagination.prevLabel && "<< "}
-        {pagination.prevLabel}
-      </div>
-      <div ref={el} className="p-4 pt-6 pb-8 flex-1 overflow-auto" style={{minHeight: '90vh'}}></div>
-      <div
-        className="text-center w-full cursor-pointer px-4 pb-4"
-        onClick={() => {
-          pagination.nextLabel && bookRenderRef.current?.rendition?.next();
+        onPrev={() => {
+          bookRenderRef.current?.rendition?.prev();
         }}
-      >
-        {pagination.nextLabel}
-        {pagination.nextLabel && " >>"}
-      </div>
+        prev={pagination.prevLabel}
+        next={pagination.nextLabel}
+        position="top"
+      />
+      <div
+        ref={el}
+        className="pt-6 pb-8 flex-1 overflow-auto"
+        style={{ minHeight: "90vh" }}
+      ></div>
+      <Pagination
+        onNext={() => {
+          bookRenderRef.current?.rendition?.next();
+        }}
+        onPrev={() => {
+          bookRenderRef.current?.rendition?.prev();
+        }}
+        prev={pagination.prevLabel}
+        next={pagination.nextLabel}
+        position="bottom"
+      />
+
       <CategoryIcon
         onClick={() => {
           setCategoryVisible(true);
