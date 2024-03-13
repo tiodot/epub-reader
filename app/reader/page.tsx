@@ -3,10 +3,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fetchBook } from "../utils/file";
 import { BookRender } from "./models/book";
 import { CategoryIcon, CategoryModal } from "./components/Category";
-import { ScrllToTopButton } from "./components/ScrollTop";
+import { PhotoSlider } from 'react-photo-view';
 import { BookRecord, db } from "../utils/db";
 import { fixImage, getReaderSize } from "../utils/hack";
 import { Pagination } from "./components/Pagination";
+import 'react-photo-view/dist/react-photo-view.css';
+import './reader.css';
+
 
 export default function Reader() {
   const [categoryVisible, setCategoryVisible] = useState(false);
@@ -20,6 +23,9 @@ export default function Reader() {
   const closeCategory = useCallback(() => {
     setCategoryVisible(false);
   }, []);
+
+  const [imgSrc, setImgSrc] = useState('');
+
   // get book info
   useEffect(() => {
     let ignore = false;
@@ -31,13 +37,23 @@ export default function Reader() {
         new res.default();
       });
     }
-    // const handleArticleHref = (e: any) => {
-    //   const [targetElement] = e.composePath() ?? [];
-    //   console.log(targetElement);
-    //   if (targetElement.tagName === 'A' && targetElement.href) {
-    //     window.open(targetElement.href, '_blank');
-    //   }
-    // }
+    const handleDomClick = (e: any) => {
+      const domPath = e.composedPath() ?? [];
+      for (let dom of domPath) {
+        if (dom.tagName === "A" && dom.href) {
+          // open
+          console.log("href:", dom.href);
+          return;
+        }
+        if (dom.tagName === "IMG" && dom.src) {
+          // preview image
+          console.log("imge:", dom.src);
+          setImgSrc(dom.src);
+          return;
+        }
+      }
+    };
+
     const renderBook = (bookRecord: BookRecord) => {
       if (!ignore) {
         // setTitle
@@ -49,7 +65,7 @@ export default function Reader() {
           },
           size: getReaderSize(),
         });
-        // el.current?.addEventListener('click', handleArticleHref);
+        el.current?.addEventListener("click", handleDomClick);
       }
     };
     if (url) {
@@ -66,13 +82,19 @@ export default function Reader() {
     }
     return () => {
       fixImage();
-      // el.current?.removeEventListener('click', handleArticleHref);
+      el.current?.removeEventListener('click', handleDomClick);
       ignore = true;
     };
   }, []);
 
   return (
     <div className="relative flex flex-col">
+      <PhotoSlider
+        images={[{ src: imgSrc, key: 0 }]}
+        visible={!!imgSrc}
+        onClose={() => setImgSrc(undefined)}
+        maskOpacity={0.6}
+      />
       {loading && <p className="text-center">loading...</p>}
       <Pagination
         onNext={() => {

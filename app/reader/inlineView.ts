@@ -10,7 +10,7 @@ h1, h2, h3, h4, h5 {
   color: rgb(var(--foreground-rgb));
 }
 
-code, tt {
+code, tt, pre {
   background-color: rgb(var(--background-start-bg));
 }
 
