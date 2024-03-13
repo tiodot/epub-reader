@@ -31,6 +31,13 @@ export default function Reader() {
         new res.default();
       });
     }
+    // const handleArticleHref = (e: any) => {
+    //   const [targetElement] = e.composePath() ?? [];
+    //   console.log(targetElement);
+    //   if (targetElement.tagName === 'A' && targetElement.href) {
+    //     window.open(targetElement.href, '_blank');
+    //   }
+    // }
     const renderBook = (bookRecord: BookRecord) => {
       if (!ignore) {
         // setTitle
@@ -42,6 +49,7 @@ export default function Reader() {
           },
           size: getReaderSize(),
         });
+        // el.current?.addEventListener('click', handleArticleHref);
       }
     };
     if (url) {
@@ -58,6 +66,7 @@ export default function Reader() {
     }
     return () => {
       fixImage();
+      // el.current?.removeEventListener('click', handleArticleHref);
       ignore = true;
     };
   }, []);

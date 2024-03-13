@@ -75,7 +75,7 @@ export function CategoryModal(props: {
       }}
     >
       <div
-        className="absolute h-screen z-10 w-100 max-w-md right-0 top-0 overflow-auto pb-16 bg-slate-50 dark:bg-black p-6 pt-1"
+        className="absolute h-screen z-10 w-100 max-w-md right-0 top-0 overflow-auto pb-24 bg-slate-50 dark:bg-black p-6 pt-1"
         style={{ overscrollBehavior: "none" }}
       >
         <Category
@@ -100,9 +100,10 @@ export function CategoryIcon(props: { onClick: () => void }) {
   return (
     <div className="fixed z-0 right-3 bottom-10 cursor-pointer" onClick={props.onClick}>
       <Image
-        width={12}
-        height={12}
-        src="/category.png"
+        width={16}
+        height={16}
+        unoptimized
+        src="/category.svg"
         alt="category"
         className="w-full h-full"
       />
