@@ -72,7 +72,7 @@ export function SearchGithub(props: { onChange: (books: BookItem[]) => void }) {
     <div>
       <div className="mb-4 flex items-center">
         <input
-          className="p-2 min-w-60 bg-transparent border"
+          className="p-2 flex-1 min-w-0 bg-transparent border"
           placeholder="github USER/REPO[@BRANCH] eg: tiodot/test or tiodot/test@master)"
           onChange={handleInput}
           value={val}
