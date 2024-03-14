@@ -14,6 +14,13 @@ code, tt, pre {
   background-color: rgb(var(--background-start-bg));
 }
 
+video {
+  display: none;
+}
+svg {
+  max-width: 100px;
+}
+
 </style>
 `
 
