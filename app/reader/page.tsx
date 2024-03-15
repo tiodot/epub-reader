@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fetchBook } from "../utils/file";
 import { BookRender } from "./models/book";
 import { CategoryIcon, CategoryModal } from "./components/Category";
@@ -86,6 +86,22 @@ export default function Reader() {
       ignore = true;
     };
   }, []);
+
+  // handle keyboard click
+  useEffect(() => {
+    const handleKeydown = (e: globalThis.KeyboardEvent) => {
+      console.log('e.code', e.code);
+      if (e.code === 'ArrowLeft') {
+        bookRenderRef.current?.prev();
+      } else if (e.code === 'ArrowRight') {
+        bookRenderRef.current?.next();
+      }
+    }
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    }
+  }, [])
 
   return (
     <div className="relative flex flex-col">
