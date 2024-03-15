@@ -1,8 +1,7 @@
 import { atom, useSetAtom } from "jotai";
 import { BookRecord, db } from "../../utils/db";
 import { dfs, find, INode } from "../../utils/tree";
-import InlineView from '../inlineView';
-
+import InlineView from "../inlineView";
 
 import { Book, Rendition, Location } from "epubjs";
 import Navigation, { NavItem } from "epubjs/types/navigation";
@@ -265,11 +264,8 @@ export class BookRender {
   async render(
     el: HTMLDivElement,
     options?: {
-      size?: {width: number, height: number},
-      onRender?: (params: {
-        prevLabel?: string;
-        nextLabel?: string;
-      }) => void;
+      size?: { width: number; height: number };
+      onRender?: (params: { prevLabel?: string; nextLabel?: string }) => void;
     }
   ) {
     if (el === this._el) return;
@@ -295,9 +291,9 @@ export class BookRender {
         sections.forEach((s) => {
           s.length = s.document.body.textContent?.length ?? 0;
           s.images = [];
-          s.document.querySelectorAll('img').forEach(el => {
+          s.document.querySelectorAll("img").forEach((el) => {
             s.images.push(el.src);
-          })
+          });
           // s.images = [...s.document.querySelectorAll("img")].map(
           //   (el) => el.src
           // );
@@ -350,24 +346,21 @@ export class BookRender {
           previousSectionsLength / this.totalLength;
         const currentSectionPercentage =
           this.sections[i]!.length / this.totalLength;
-        const displayedPercentage =
-          start.displayed.page / start.displayed.total;
 
         const percentage =
-          previousSectionsPercentage +
-          currentSectionPercentage * displayedPercentage;
+          previousSectionsPercentage + currentSectionPercentage;
 
         this.updateBook({ cfi: start.cfi, percentage });
       }
     });
 
-    this.rendition.manager?.on('resized', (...args: []) => {
-      console.log('manage resized:', args);
-    })
+    this.rendition.manager?.on("resized", (...args: []) => {
+      console.log("manage resized:", args);
+    });
 
-    this.rendition.on('resized', (args: any) => {
-      console.log('rendition resize:', args);
-    })
+    this.rendition.on("resized", (args: any) => {
+      console.log("rendition resize:", args);
+    });
 
     this.rendition.on("attached", (...args: any[]) => {
       console.log("attached", args);
@@ -382,15 +375,17 @@ export class BookRender {
       console.log("rendered", [section, view]);
       this.section = section;
       this.iframe = view.window as Window;
-      // get 
+      // get
       const nextSection = section.next();
       const prevSection = section.prev();
-      const params = {nextLabel: '', prevLabel: ''};
+      const params = { nextLabel: "", prevLabel: "" };
       if (nextSection) {
-        params.nextLabel = this.epub?.navigation.get(nextSection.href!).label ?? '';
+        params.nextLabel =
+          this.epub?.navigation.get(nextSection.href!).label ?? "";
       }
       if (prevSection) {
-        params.prevLabel = this.epub?.navigation.get(prevSection.href!).label ?? '';
+        params.prevLabel =
+          this.epub?.navigation.get(prevSection.href!).label ?? "";
       }
       options?.onRender?.(params);
     });
